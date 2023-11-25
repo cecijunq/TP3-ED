@@ -30,6 +30,7 @@ class Node {
         void set_index(int index);
         void define_intervalo(int i, int j);
         void produto_matrizes(int **esq, int **dir);
+        int *multiplica_vetor(int *vetor);
         void imprime();
 };
 

@@ -79,7 +79,6 @@ Node *SegTree::build_tree(int pos, int esq, int dir) {
 
 int **SegTree::atualiza_no_recursivo(int pos, int **nova_matriz, Node *no) {
     if(pos == no->get_intervalo_inicio() && pos == no->get_intervalo_fim()) {
-        std::cout << "entrou " << pos << std::endl;
         no->set_matrix(nova_matriz);
         return no->get_matrix();
 
@@ -97,6 +96,45 @@ int **SegTree::atualiza_no_recursivo(int pos, int **nova_matriz, Node *no) {
     } else {
         return no->get_matrix();
     }
+}
+
+/*int **SegTree::consulta(int comeco, int fim, Node *no) {
+    bool cond1 = comeco >= no->get_intervalo_inicio();
+    bool cond2 = fim <= no->get_intervalo_fim();
+    if(comeco == no->get_intervalo_inicio() && fim == no->get_intervalo_fim()) {
+        return no->get_matrix();
+    }
+    if(no->get_intervalo_inicio() == no->get_intervalo_fim() && cond1 && cond2) {
+        return no->get_matrix();
+
+    } else if(cond1 && cond2) {
+        int **proximo_esq = consulta(comeco, fim, no->get_ramo_esq());
+        int **proximo_dir = consulta(comeco, fim, no->get_ramo_dir());
+        no->produto_matrizes(no->get_matrix(), proximo_esq);
+        no->produto_matrizes(no->get_matrix(), proximo_dir);
+        
+    } else {
+        Node *node_aux = new Node();
+        node_aux->add_matrix();
+    }
+}*/
+Node *SegTree::consulta(int comeco, int fim, Node *no, Node *aux) {
+    int mediana = (comeco + fim) / 2;
+    if(comeco == no->get_intervalo_inicio() && fim == no->get_intervalo_fim()) {
+        aux->produto_matrizes(aux->get_matrix(), no->get_matrix());
+        //return no->get_matrix();
+    } else if(fim < mediana) {
+        consulta(comeco, fim, no->get_ramo_esq(), aux);
+
+    } else if(comeco > mediana+1) {
+        consulta(comeco, fim, no->get_ramo_dir(), aux);
+
+    } else if(comeco >= no->get_intervalo_inicio() && fim <= no->get_intervalo_fim() && fim > mediana+1) {
+        consulta(comeco, mediana, no->get_ramo_esq(), aux);
+        consulta(mediana + 1, fim, no->get_ramo_dir(), aux);
+    }
+
+    return aux;
 }
 
 void SegTree::imprime(Node *no) {

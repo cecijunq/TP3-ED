@@ -23,6 +23,26 @@ int main() {
         s.imprime(s.get_raiz());
 
     }
+
+    Node *aux = new Node();
+    aux->add_matrix();
+    Node *resultado = s.consulta(1, 2, s.get_raiz(), aux);
+
+    int *vetor = new int[2];
+    for(int i = 0; i < 2; i++) {
+        int n;
+        std::cin >> n;
+        vetor[i] = n;
+    }
+
+    int *vetor_result = resultado->multiplica_vetor(vetor);
+
+    for(int i = 0; i < 2; i++) {
+        std::cout << vetor_result[i] << " ";
+    }
+    std::cout << std::endl;
+
+    //s.consulta(0, 1, s.get_raiz());
     /*int n, q;
 
     // recebe a quantidade de instantes de tempo
@@ -32,6 +52,8 @@ int main() {
     std::cin >> q;
 
     char op;
+
+    std::cin >> op;
 
     for(int i = 0; i < q; i++) {
         if(op == 'u') {

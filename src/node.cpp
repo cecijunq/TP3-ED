@@ -16,7 +16,12 @@ void Node::add_matrix() {
 }
 
 void Node::set_matrix(int **nova) {
-    matriz = nova;
+    for(int i = 0; i < 2; i++) {
+        for(int j = 0; j < 2; j++) {
+            matriz[i][j] = nova[i][j];
+        }
+    }
+    //matriz = nova;
 }
 
 int **Node::get_matrix() {
@@ -85,6 +90,19 @@ void Node::produto_matrizes(int **esq, int **dir) {
             //matriz[i][j] = soma_prod;
         }
     }
+}
+
+int *Node::multiplica_vetor(int *vetor) {
+    int *resultado = new int[2];
+    resultado[0] = 0;
+    resultado[1] = 0;
+
+    for(int i = 0; i < 2; i++) {
+        for(int j = 0; j < 2; j++) {
+            resultado[i] += matriz[i][j] * vetor[j];
+        }
+    }
+    return resultado;
 }
 
 void Node::imprime() {
