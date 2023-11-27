@@ -2,67 +2,60 @@
 #include "../include/segTree.hpp"
 
 int main() {
-    SegTree s = SegTree(3);
-
-    //s.build_tree(0,0,7);
-    //s.imprime(s.get_raiz());
-    int **m;
-    m = new int*[2];
-    m[0] = new int[2];
-    m[1] = new int[2];
-    for(int k = 0; k < 3; k++) {
-        int n;
-        for(int i = 0; i < 2; i++) {
-            for(int j = 0; j < 2; j++) {
-                std::cin >> n;
-                m[i][j] = n;
-            }
-        }
-        std::cout << "k = " << k << std::endl;
-        s.atualiza_no_recursivo(k, m, s.get_raiz());
-        s.imprime(s.get_raiz());
-
-    }
-
-    Node *aux = new Node();
-    aux->add_matrix();
-    Node *resultado = s.consulta(1, 2, s.get_raiz(), aux);
-
-    int *vetor = new int[2];
-    for(int i = 0; i < 2; i++) {
-        int n;
-        std::cin >> n;
-        vetor[i] = n;
-    }
-
-    int *vetor_result = resultado->multiplica_vetor(vetor);
-
-    for(int i = 0; i < 2; i++) {
-        std::cout << vetor_result[i] << " ";
-    }
-    std::cout << std::endl;
-
-    //s.consulta(0, 1, s.get_raiz());
-    /*int n, q;
+    int n, q;
 
     // recebe a quantidade de instantes de tempo
     std::cin >> n;
+    SegTree s = SegTree(n);
     
     // recebe a quantidade de operações a serem realizadas
     std::cin >> q;
 
     char op;
 
-    std::cin >> op;
-
     for(int i = 0; i < q; i++) {
+        std::cin >> op;
         if(op == 'u') {
+            long int **m;
+            m = new long int*[2];
+            m[0] = new long int[2];
+            m[1] = new long int[2];
+            int index;
+            std::cin >> index;
+            if(index >= n) return 0;
+            int num;
+            for(int i = 0; i < 2; i++) {
+                for(int j = 0; j < 2; j++) {
+                    std::cin >> num;
+                    if(num < 0) return 0;
+                    m[i][j] = num;
+                }
+            }
+            s.atualiza_no_recursivo(index, m, s.get_raiz());
 
         } else if(op == 'q') {
+            int nasc, morte;
+            std::cin >> nasc;
+            std::cin >> morte;
+            Node *aux = new Node();
+            aux->add_matrix();
+        
+            s.consulta(nasc, morte, s.get_raiz(), aux);
+
+            long int *vetor = new long int[2];
+            for(int i = 0; i < 2; i++) {
+                int num;
+                std::cin >> num;
+                vetor[i] = num;
+            }
+
+            long int *vetor_result = aux->multiplica_vetor(vetor);
+            std::cout << vetor_result[0] << " ";
+            std::cout << vetor_result[1] << std::endl;
 
         } else {
             // tratamento de exceção: se o caractere inserido não for 'u' nem 'v', a execução do programa é encerrada
             return 0;
         }
-    }*/
+    }
 }
