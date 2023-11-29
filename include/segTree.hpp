@@ -10,8 +10,10 @@ class SegTree {
 
     public:
         SegTree(int n);
+        ~SegTree();
+        void limpa(Node *no);
         Node *get_raiz();
-        Node *build_tree(int pos_segtree, int esq, int dir);
+        Node *build_tree(int esq, int dir);
         long int **atualiza_no_recursivo(int pos, long int **nova_matriz, Node *no);
         void consulta(int comeco, int fim, Node *no, Node *aux);
         void imprime(Node *no);

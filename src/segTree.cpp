@@ -1,39 +1,57 @@
 #include "../include/segTree.hpp"
 
 SegTree::SegTree(int n) {
-    seg_tree = build_tree(0, 0, n-1);
+    seg_tree = build_tree(0, n-1);
     n_vertices = 2*n-1;
+}
+
+SegTree::~SegTree() {
+    limpa(seg_tree);
+}
+
+void SegTree::limpa(Node *no) {
+    if(no->get_ramo_esq() == nullptr) {
+        no->limpa();
+        delete no;
+        return;
+    }
+    if(no->get_ramo_dir() == nullptr) {
+        no->limpa();
+        delete no;
+        return;
+    }
+    limpa(no->get_ramo_esq());
+    limpa(no->get_ramo_dir());
 }
 
 Node *SegTree::get_raiz() {
     return seg_tree;
 }
 
-Node *SegTree::build_tree(int pos, int esq, int dir) {
+Node *SegTree::build_tree(int esq, int dir) {
+    // 2*O(n/2) + 1
     Node *novo = new Node;
     if(esq == dir) {
         novo->add_matrix();
         novo->define_intervalo(esq, dir);
-        novo->set_pos(pos);
-        novo->set_index(esq);
         novo->set_ramo(nullptr, nullptr);
         return novo;
     }
 
     novo->define_intervalo(esq, dir);
-    novo->set_pos(pos);
     // quebra o array na metade
     int m = (esq + dir)/2;
 
     // constroi os dos ramos
-    Node *no_esq = build_tree(2*pos + 1, esq, m);
-    Node *no_dir = build_tree(2*pos + 2, m+1, dir);
+    Node *no_esq = build_tree(esq, m);
+    Node *no_dir = build_tree(m+1, dir);
     novo->produto_matrizes(no_esq->get_matrix(), no_dir->get_matrix());
     novo->set_ramo(no_esq, no_dir);
     return novo;
 }
 
 long int **SegTree::atualiza_no_recursivo(int pos, long int **nova_matriz, Node *no) {
+    // 2O(n) + 1
     if(pos == no->get_intervalo_inicio() && pos == no->get_intervalo_fim()) {
         no->set_matrix(nova_matriz);
         return no->get_matrix();
@@ -55,6 +73,7 @@ long int **SegTree::atualiza_no_recursivo(int pos, long int **nova_matriz, Node 
 }
 
 void SegTree::consulta(int comeco, int fim, Node *no, Node *aux) {
+    // O(log n)
     int media = (no->get_intervalo_inicio() + no->get_intervalo_fim()) / 2;
     if(comeco == no->get_intervalo_inicio() && fim == no->get_intervalo_fim()) {
         aux->produto_matrizes(aux->get_matrix(), no->get_matrix());

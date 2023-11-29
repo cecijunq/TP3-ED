@@ -3,6 +3,17 @@
 
 Node::Node() {}
 
+/*Node::~Node() {
+    limpa();
+}*/
+
+void Node::limpa() {
+    for(int i = 0; i < 2; i++) {
+        delete matriz[i];
+    }
+    delete matriz;
+}
+
 void Node::add_matrix() {
     matriz = new long int*[2];
     matriz[0] = new long int[2];
@@ -42,10 +53,6 @@ int Node::get_intervalo_fim(){
 
 int Node::get_intervalo_inicio(){
     return intervalo_inicio;
-} 
-
-int Node::get_pos() {
-    return _pos;
 }
 
 void Node::inicializa_matriz_nula() {
@@ -65,22 +72,15 @@ void Node::set_ramo(Node *ramo_esq, Node *ramo_dir) {
     _ramo_dir = ramo_dir;
 }
 
-void Node::set_pos(int pos) {
-    _pos = pos;
-}
-
-void Node::set_index(int index) {
-    index_matriz = index;
-}
-
 void Node::define_intervalo(int i, int j) {
     intervalo_inicio = i;
     intervalo_fim = j;
 }
 
 void Node::produto_matrizes(long int **esq, long int **dir) {
-    inicializa_matriz_nula();
+    inicializa_matriz_nula(); // O(n^2) 
 
+    // O(n^3)
     for(int i = 0; i < 2; i++) {
         for(int j = 0; j < 2; j++) {
             for(int k = 0; k < 2; k++) {
@@ -89,6 +89,7 @@ void Node::produto_matrizes(long int **esq, long int **dir) {
             matriz[i][j] = seleciona_digitos(matriz[i][j]);
         }
     }
+    // O(n^2) + O(n^3), logo, a complexidade é O(n^3)
 }
 
 long int *Node::multiplica_vetor(long int *vetor) {
@@ -96,30 +97,38 @@ long int *Node::multiplica_vetor(long int *vetor) {
     resultado[0] = 0;
     resultado[1] = 0;
 
+    // O(n^2)
     for(int i = 0; i < 2; i++) {
         for(int j = 0; j < 2; j++) {
             resultado[i] += matriz[i][j] * vetor[j];
         }
     }
 
+    // O(n)
     for(int i = 0; i < 2; i++) {
         resultado[i] = seleciona_digitos(resultado[i]);
     }
     return resultado;
+
+    // O(n^2) + O(n) = O(n^2)
 }
 
 long int Node::seleciona_digitos(long int n) {
     int n_digitos = 0;
     long int saida_valida[8];
+    // pior caso: quando 'n' tem 8 ou mais dígitos --> O(n)
     while(n/10 >= 10 || n_digitos < 8) {
         if(n_digitos >= 8) break;
         saida_valida[n_digitos] = n%10;
         n = n/10;
         n_digitos++;
     }
+    if(n_digitos != 8) return n;
     long int saida_final[8];
     bool zeros_inicio = true;
     int j = 0;
+
+    // O(n)
     for(int i = n_digitos-1; i >= 0; i--) {
         if(saida_valida[i] != 0) {
             zeros_inicio = false;
@@ -131,16 +140,18 @@ long int Node::seleciona_digitos(long int n) {
         }
     }
     long int n_final = 0;
+    // O(n)
     for(int i = 0; i < j; i++) {
         int x = pow(10,j-1-i);
         n_final += (x * saida_final[i]);
     }
     return n_final;
+
+    // 3 * O(n) = O(n)
 }
 
 void Node::imprime() {
     std::cout << intervalo_inicio << " " << intervalo_fim << std::endl;
-    std::cout << _pos << std::endl;
     for(int i = 0; i < 2; i++) {
         for(int j = 0; j < 2; j++) {
             std::cout << matriz[i][j] << " ";

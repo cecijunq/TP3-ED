@@ -53,6 +53,8 @@ int main() {
             std::cout << vetor_result[0] << " ";
             std::cout << vetor_result[1] << std::endl;
 
+            delete []vetor_result;
+
         } else {
             // tratamento de exceção: se o caractere inserido não for 'u' nem 'v', a execução do programa é encerrada
             return 0;
