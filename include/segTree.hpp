@@ -2,6 +2,7 @@
 #define SEG_TREE_HPP
 
 #include "./node.hpp"
+#include "../include/memlog.hpp"
 
 class SegTree {
     private:

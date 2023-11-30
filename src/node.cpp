@@ -73,6 +73,7 @@ void Node::set_ramo(Node *ramo_esq, Node *ramo_dir) {
 }
 
 void Node::define_intervalo(int i, int j) {
+    _id = i;
     intervalo_inicio = i;
     intervalo_fim = j;
 }

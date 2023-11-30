@@ -2,6 +2,7 @@
 #define NODE_HPP
 
 #include <iostream>
+#include "../include/memlog.hpp"
 
 class Node {
     private:
@@ -12,6 +13,7 @@ class Node {
         int intervalo_fim;
 
     public:
+        int _id;
         //Node(int i, int j);
         Node();
         //~Node();

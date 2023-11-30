@@ -14,13 +14,15 @@ SRC = src
 OBJ = obj
 INC = include
 BIN = bin
-OBJS = $(OBJ)/main.o $(OBJ)/segTree.o $(OBJ)/node.o
-HDRS = $(INC)/segTree.hpp $(INC)/node.hpp
+OBJS = $(OBJ)/main.o $(OBJ)/segTree.o $(OBJ)/node.o $(OBJ)/memlog.o
+HDRS = $(INC)/segTree.hpp $(INC)/node.hpp $(INC)/memlog.hpp
 CFLAGS = -g -pg -Wall -std=c++17 -c -I$(INC)
 
 EXE = $(BIN)/tp3.out
 
-all: use $(EXE)
+all: use mem
+
+mem: $(EXE)
 
 use:
 	mkdir -p bin/
@@ -37,6 +39,9 @@ $(OBJ)/segTree.o: $(HDRS) $(SRC)/segTree.cpp
 
 $(OBJ)/node.o: $(HDRS) $(SRC)/node.cpp
 	$(CC) $(CFLAGS) -o $(OBJ)/node.o $(SRC)/node.cpp 
+
+$(OBJ)/memlog.o: $(HDRS) $(SRC)/memlog.cpp
+	$(CC) $(CFLAGS) -o $(OBJ)/memlog.o $(SRC)/memlog.cpp 
 
 clean:
 	rm -f $(EXE) $(OBJS) gmon.out

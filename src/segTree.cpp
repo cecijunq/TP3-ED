@@ -31,6 +31,7 @@ Node *SegTree::get_raiz() {
 Node *SegTree::build_tree(int esq, int dir) {
     // 2*O(n/2) + 1
     Node *novo = new Node;
+    leMemLog((long int)(novo), sizeof(double),esq+dir);
     if(esq == dir) {
         novo->add_matrix();
         novo->define_intervalo(esq, dir);
@@ -54,6 +55,7 @@ long int **SegTree::atualiza_no_recursivo(int pos, long int **nova_matriz, Node 
     // 2O(n) + 1
     if(pos == no->get_intervalo_inicio() && pos == no->get_intervalo_fim()) {
         no->set_matrix(nova_matriz);
+        escreveMemLog((long int)(no), sizeof(double),pos);
         return no->get_matrix();
 
     } 
