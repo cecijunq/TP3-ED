@@ -46,6 +46,7 @@ int main() {
             for(int i = 0; i < 2; i++) {
                 int num;
                 std::cin >> num;
+                if(num < 0) return 0;
                 vetor[i] = num;
             }
 
