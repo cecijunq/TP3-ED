@@ -33,6 +33,11 @@ int main() {
             }
             s.atualiza_no_recursivo(index, m, s.get_raiz());
 
+            for(int i = 0; i < 2; i++) {
+                delete[] m[i];
+            }
+            delete[] m;
+
         } else if(op == 'q') {
             int nasc, morte;
             std::cin >> nasc;

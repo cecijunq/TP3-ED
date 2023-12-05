@@ -5,9 +5,9 @@ Node::Node() {}
 
 void Node::limpa() {
     for(int i = 0; i < 2; i++) {
-        delete matriz[i];
+        delete[] matriz[i];
     }
-    delete matriz;
+    delete[] matriz;
 }
 
 void Node::add_matrix() {
@@ -57,6 +57,7 @@ void Node::inicializa_matriz_nula() {
     matriz = new long int*[2];
     matriz[0] = new long int[2];
     matriz[1] = new long int[2];
+
 
     for(int i = 0; i < 2; i++) {
         for(int j = 0; j < 2; j++) {

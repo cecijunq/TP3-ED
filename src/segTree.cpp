@@ -10,18 +10,19 @@ SegTree::~SegTree() {
 }
 
 void SegTree::limpa(Node *no) {
-    if(no->get_ramo_esq() == nullptr) {
-        no->limpa();
-        delete no;
+    if (no == nullptr) {
         return;
     }
-    if(no->get_ramo_dir() == nullptr) {
-        no->limpa();
-        delete no;
-        return;
-    }
+
     limpa(no->get_ramo_esq());
     limpa(no->get_ramo_dir());
+
+    // Chama o método limpa apenas se a matriz existir
+    if (no->get_matrix() != nullptr) {
+        no->limpa();
+    }
+
+    delete no;
 }
 
 Node *SegTree::get_raiz() {
